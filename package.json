@@ -12,6 +12,7 @@
     "@aws-sdk/client-s3": "^3.490.0",
     "@aws-sdk/s3-request-presigner": "^3.490.0",
     "@supabase/supabase-js": "^2.38.0",
+    "@vercel/blob": "^2.3.3",
     "bcryptjs": "^2.4.3",
     "googleapis": "^164.1.0",
     "multiparty": "^4.2.3",

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>AR View</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; width: 100vw; height: 100vh; overflow: hidden; }
+    model-viewer { width: 100vw; height: 100vh; }
+    #fallback {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #111;
+      color: #fff;
+      font-family: system-ui, sans-serif;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      text-align: center;
+      padding: 32px;
+    }
+    #fallback p { color: #aaa; font-size: 14px; }
+    #ar-btn {
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 24px;
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+</head>
+<body>
+  <model-viewer
+    id="viewer"
+    ar
+    ar-modes="scene-viewer quick-look"
+    ar-scale="fixed"
+    disable-zoom
+    camera-controls>
+  </model-viewer>
+
+  <div id="fallback">
+    <h2>View in AR</h2>
+    <p>Open this link on your mobile device to view the model in your space.</p>
+    <button id="ar-btn">Open AR</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const glbUrl = params.get('url');
+    const viewer = document.getElementById('viewer');
+
+    if (!glbUrl) {
+      document.getElementById('fallback').style.display = 'flex';
+      viewer.style.display = 'none';
+    } else {
+      viewer.src = glbUrl;
+
+      viewer.addEventListener('load', () => {
+        // Auto-trigger AR on mobile
+        if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+          viewer.activateAR();
+        }
+      });
+
+      viewer.addEventListener('ar-status', (e) => {
+        // If AR not supported, show fallback button
+        if (e.detail.status === 'failed') {
+          document.getElementById('fallback').style.display = 'flex';
+        }
+      });
+
+      document.getElementById('ar-btn').addEventListener('click', () => {
+        viewer.activateAR();
+      });
+    }
+  </script>
+</body>
+</html>
