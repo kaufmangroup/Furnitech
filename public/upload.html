@@ -241,7 +241,10 @@
 
         setProgress(100, 'Done');
         currentArUrl = data.arUrl;
-        document.getElementById('qr-container').innerHTML = data.qrSvg;
+        const qrImg = document.createElement('img');
+        qrImg.src = data.qrImageUrl;
+        qrImg.style.cssText = 'width:200px;height:200px';
+        document.getElementById('qr-container').appendChild(qrImg);
         const arLink = document.getElementById('ar-link');
         arLink.href = data.arUrl;
         arLink.textContent = data.arUrl;

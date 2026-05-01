@@ -1,7 +1,6 @@
 const { put } = require("@vercel/blob");
 const multiparty = require("multiparty");
 const fs = require("fs");
-const { generateQR } = require("../lib/qr-generator.js");
 
 function parseForm(req) {
   return new Promise((resolve, reject) => {
@@ -31,7 +30,6 @@ module.exports = async function handler(req, res) {
 
     const fileBuffer = fs.readFileSync(file.path);
 
-    // Upload to Vercel Blob (server-side — no CORS)
     const blob = await put(file.originalFilename || "model.glb", fileBuffer, {
       access: "public",
       contentType: "model/gltf-binary",
@@ -40,23 +38,18 @@ module.exports = async function handler(req, res) {
 
     const baseUrl = process.env.BASE_URL || `https://${req.headers.host}`;
     const arUrl = `${baseUrl}/ar?url=${encodeURIComponent(blob.url)}`;
-
-    // Generate QR SVG
-    const qrResult = await generateQR(arUrl, { format: "svg", size: 256 });
-    if (!qrResult.success)
-      return res.status(500).json({ error: "QR generation failed" });
-    const qrSvg = qrResult.data.qr_code;
+    const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(arUrl)}&size=300x300`;
 
     // Append to Google Sheets
     const { sheetsClient } = await import("../lib/google-sheets.js");
     await sheetsClient.initialize();
     const sheetsResult = await sheetsClient.appendRows("Sheet1!A:D", [
-      [name, sku, arUrl, qrSvg],
+      [name, sku, arUrl, qrImageUrl],
     ]);
     if (!sheetsResult.success)
       throw new Error("Sheets append failed: " + sheetsResult.error);
 
-    return res.status(200).json({ success: true, arUrl, qrSvg });
+    return res.status(200).json({ success: true, arUrl, qrImageUrl });
   } catch (err) {
     console.error("upload error:", err.message);
     return res.status(500).json({ error: err.message || "Upload failed" });
