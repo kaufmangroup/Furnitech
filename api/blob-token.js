@@ -27,7 +27,6 @@ export default async function handler(req, res) {
         allowedContentTypes: ["model/gltf-binary", "application/octet-stream"],
         maximumSizeInBytes: 200 * 1024 * 1024,
       }),
-      onUploadCompleted: async () => {},
     });
     return res.json(result);
   } catch (err) {
