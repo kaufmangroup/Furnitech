@@ -27,26 +27,11 @@
       max-width: 480px;
     }
 
-    h1 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #e6edf3;
-    }
+    h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
 
-    .subtitle {
-      font-size: 14px;
-      color: #8b949e;
-      margin-bottom: 32px;
-    }
+    .subtitle { font-size: 14px; color: #8b949e; margin-bottom: 32px; }
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: #8b949e;
-      margin-bottom: 6px;
-    }
+    label { display: block; font-size: 13px; font-weight: 500; color: #8b949e; margin-bottom: 6px; }
 
     input[type="text"] {
       width: 100%;
@@ -60,10 +45,7 @@
       transition: border-color 0.15s;
       margin-bottom: 20px;
     }
-
-    input[type="text"]:focus {
-      border-color: #58a6ff;
-    }
+    input[type="text"]:focus { border-color: #58a6ff; }
 
     .file-zone {
       border: 2px dashed #30363d;
@@ -75,39 +57,12 @@
       margin-bottom: 24px;
       position: relative;
     }
-
-    .file-zone:hover, .file-zone.drag-over {
-      border-color: #58a6ff;
-      background: rgba(88, 166, 255, 0.04);
-    }
-
-    .file-zone input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-    }
-
+    .file-zone:hover, .file-zone.drag-over { border-color: #58a6ff; background: rgba(88,166,255,0.04); }
+    .file-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
     .file-icon { font-size: 32px; margin-bottom: 8px; }
-
-    .file-label {
-      font-size: 14px;
-      color: #8b949e;
-    }
-
-    .file-label span {
-      color: #58a6ff;
-      font-weight: 500;
-    }
-
-    .file-name {
-      font-size: 13px;
-      color: #3fb950;
-      margin-top: 8px;
-      font-weight: 500;
-    }
+    .file-label { font-size: 14px; color: #8b949e; }
+    .file-label span { color: #58a6ff; font-weight: 500; }
+    .file-name { font-size: 13px; color: #3fb950; margin-top: 8px; font-weight: 500; }
 
     button[type="submit"] {
       width: 100%;
@@ -121,65 +76,17 @@
       cursor: pointer;
       transition: background 0.15s;
     }
-
     button[type="submit"]:hover:not(:disabled) { background: #2ea043; }
     button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* Progress */
-    #progress-section {
-      display: none;
-      margin-top: 24px;
-    }
+    #progress-section { display: none; margin-top: 24px; }
+    .progress-bar-track { background: #21262d; border-radius: 4px; height: 6px; overflow: hidden; margin-bottom: 8px; }
+    .progress-bar-fill { height: 100%; background: #58a6ff; border-radius: 4px; width: 0%; transition: width 0.4s; }
+    .progress-status { font-size: 13px; color: #8b949e; text-align: center; }
 
-    .progress-bar-track {
-      background: #21262d;
-      border-radius: 4px;
-      height: 6px;
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: #58a6ff;
-      border-radius: 4px;
-      width: 0%;
-      transition: width 0.3s;
-    }
-
-    .progress-status {
-      font-size: 13px;
-      color: #8b949e;
-      text-align: center;
-    }
-
-    /* Result */
-    #result-section {
-      display: none;
-      margin-top: 24px;
-      border-top: 1px solid #21262d;
-      padding-top: 24px;
-    }
-
-    .result-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #3fb950;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .qr-container {
-      background: #fff;
-      border-radius: 8px;
-      padding: 16px;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
+    #result-section { display: none; margin-top: 24px; border-top: 1px solid #21262d; padding-top: 24px; }
+    .result-title { font-size: 15px; font-weight: 600; color: #3fb950; margin-bottom: 20px; }
+    .qr-container { background: #fff; border-radius: 8px; padding: 16px; display: flex; justify-content: center; margin-bottom: 20px; }
     .qr-container svg { max-width: 200px; height: auto; }
 
     .link-box {
@@ -192,29 +99,8 @@
       gap: 10px;
       margin-bottom: 12px;
     }
-
-    .link-box a {
-      color: #58a6ff;
-      font-size: 13px;
-      text-decoration: none;
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .copy-btn {
-      background: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 4px;
-      color: #8b949e;
-      font-size: 12px;
-      padding: 4px 10px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: color 0.15s;
-    }
-
+    .link-box a { color: #58a6ff; font-size: 13px; text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .copy-btn { background: #21262d; border: 1px solid #30363d; border-radius: 4px; color: #8b949e; font-size: 12px; padding: 4px 10px; cursor: pointer; white-space: nowrap; }
     .copy-btn:hover { color: #e6edf3; }
 
     .reset-btn {
@@ -227,20 +113,19 @@
       padding: 9px;
       cursor: pointer;
       margin-top: 8px;
-      transition: border-color 0.15s, color 0.15s;
     }
-
     .reset-btn:hover { border-color: #58a6ff; color: #e6edf3; }
 
     .error-msg {
-      background: rgba(248, 81, 73, 0.1);
-      border: 1px solid rgba(248, 81, 73, 0.3);
+      background: rgba(248,81,73,0.1);
+      border: 1px solid rgba(248,81,73,0.3);
       border-radius: 6px;
       color: #f85149;
       font-size: 13px;
       padding: 10px 14px;
       margin-top: 16px;
       display: none;
+      word-break: break-word;
     }
   </style>
 </head>
@@ -258,7 +143,7 @@
 
       <label>GLB File</label>
       <div class="file-zone" id="file-zone">
-        <input type="file" id="file-input" accept=".glb" required>
+        <input type="file" id="file-input" accept=".glb">
         <div class="file-icon">📦</div>
         <div class="file-label">Drop GLB here or <span>browse</span></div>
         <div class="file-name" id="file-name"></div>
@@ -272,28 +157,27 @@
       <div class="progress-bar-track">
         <div class="progress-bar-fill" id="progress-fill"></div>
       </div>
-      <div class="progress-status" id="progress-status">Uploading...</div>
+      <div class="progress-status" id="progress-status">Starting...</div>
     </div>
 
     <div id="result-section">
       <div class="result-title">✓ Model uploaded successfully</div>
-
       <div class="qr-container" id="qr-container"></div>
-
       <div class="link-box">
         <a href="#" id="ar-link" target="_blank"></a>
         <button class="copy-btn" onclick="copyLink()">Copy</button>
       </div>
-
-      <button class="reset-btn" onclick="reset()">Upload another model</button>
+      <button class="reset-btn" onclick="resetForm()">Upload another model</button>
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { upload } from 'https://esm.sh/@vercel/blob/client';
+
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-input');
     const fileZone = document.getElementById('file-zone');
-    const fileName = document.getElementById('file-name');
+    const fileNameEl = document.getElementById('file-name');
     const submitBtn = document.getElementById('submit-btn');
     const progressSection = document.getElementById('progress-section');
     const progressFill = document.getElementById('progress-fill');
@@ -303,27 +187,20 @@
     let currentArUrl = '';
 
     fileInput.addEventListener('change', () => {
-      if (fileInput.files[0]) {
-        fileName.textContent = fileInput.files[0].name;
-      }
+      if (fileInput.files[0]) fileNameEl.textContent = fileInput.files[0].name;
     });
 
-    fileZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      fileZone.classList.add('drag-over');
-    });
-
+    fileZone.addEventListener('dragover', (e) => { e.preventDefault(); fileZone.classList.add('drag-over'); });
     fileZone.addEventListener('dragleave', () => fileZone.classList.remove('drag-over'));
-
     fileZone.addEventListener('drop', (e) => {
       e.preventDefault();
       fileZone.classList.remove('drag-over');
       const f = e.dataTransfer.files[0];
-      if (f && f.name.endsWith('.glb')) {
+      if (f && f.name.toLowerCase().endsWith('.glb')) {
         const dt = new DataTransfer();
         dt.items.add(f);
         fileInput.files = dt.files;
-        fileName.textContent = f.name;
+        fileNameEl.textContent = f.name;
       }
     });
 
@@ -345,24 +222,36 @@
       const sku = document.getElementById('sku').value.trim();
       const file = fileInput.files[0];
 
-      if (!name || !sku || !file) return;
+      if (!name || !sku || !file) {
+        showError('Please fill in all fields and select a GLB file.');
+        return;
+      }
 
       submitBtn.disabled = true;
       progressSection.style.display = 'block';
-      setProgress(10, 'Uploading GLB...');
+      setProgress(10, 'Uploading GLB to storage...');
 
       try {
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('sku', sku);
-        formData.append('file', file);
+        // Step 1: upload file directly to Vercel Blob (bypasses function size limits)
+        const blob = await upload(file.name, file, {
+          access: 'public',
+          handleUploadUrl: '/api/blob-token',
+          onUploadProgress: ({ percentage }) => {
+            setProgress(Math.round(percentage * 0.8), `Uploading... ${Math.round(percentage)}%`);
+          },
+        });
 
-        setProgress(30, 'Processing...');
+        setProgress(85, 'Generating QR code...');
 
-        const res = await fetch('/api/upload', { method: 'POST', body: formData });
+        // Step 2: send only metadata to finalize (tiny payload)
+        const res = await fetch('/api/finalize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, sku, blobUrl: blob.url }),
+        });
+
         const data = await res.json();
-
-        if (!res.ok || !data.success) throw new Error(data.error || 'Upload failed');
+        if (!res.ok || !data.success) throw new Error(data.error || 'Finalize failed');
 
         setProgress(100, 'Done');
         currentArUrl = data.arUrl;
@@ -381,21 +270,21 @@
       }
     });
 
-    function copyLink() {
+    window.copyLink = () => {
       navigator.clipboard.writeText(currentArUrl).then(() => {
         const btn = document.querySelector('.copy-btn');
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = 'Copy', 2000);
       });
-    }
+    };
 
-    function reset() {
+    window.resetForm = () => {
       form.reset();
-      fileName.textContent = '';
+      fileNameEl.textContent = '';
       resultSection.style.display = 'none';
       submitBtn.disabled = false;
       currentArUrl = '';
-    }
+    };
   </script>
 </body>
 </html>

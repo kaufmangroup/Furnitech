@@ -2,7 +2,9 @@
   "rewrites": [
     { "source": "/", "destination": "/upload.html" },
     { "source": "/upload", "destination": "/upload.html" },
-    { "source": "/ar", "destination": "/ar.html" }
+    { "source": "/ar", "destination": "/ar.html" },
+    { "source": "/api/blob-token", "destination": "/api/blob-token.js" },
+    { "source": "/api/finalize", "destination": "/api/finalize.js" }
   ],
   "headers": [
     {
