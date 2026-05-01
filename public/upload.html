@@ -171,9 +171,7 @@
     </div>
   </div>
 
-  <script type="module">
-    import { upload } from 'https://esm.sh/@vercel/blob/client';
-
+  <script>
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-input');
     const fileZone = document.getElementById('file-zone');
@@ -214,6 +212,41 @@
       errorMsg.style.display = 'block';
     }
 
+    async function uploadToBlob(file) {
+      // Step 1: get client token from our endpoint
+      const tokenRes = await fetch('/api/blob-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'blob.generate-client-token',
+          payload: { pathname: file.name, clientPayload: null, multipart: false }
+        })
+      });
+      if (!tokenRes.ok) {
+        const err = await tokenRes.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed to get upload token');
+      }
+      const { clientToken } = await tokenRes.json();
+
+      // Step 2: PUT file directly to Vercel Blob using the client token
+      const blobRes = await fetch(`https://vercel.com/api/blob/?pathname=${encodeURIComponent(file.name)}`, {
+        method: 'PUT',
+        headers: {
+          'authorization': `Bearer ${clientToken}`,
+          'x-api-version': '12',
+          'x-access': 'public',
+          'x-content-type': 'model/gltf-binary',
+        },
+        body: file,
+      });
+      if (!blobRes.ok) {
+        const text = await blobRes.text();
+        throw new Error(`Blob upload failed (${blobRes.status}): ${text}`);
+      }
+      const blobData = await blobRes.json();
+      return blobData.url;
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       errorMsg.style.display = 'none';
@@ -229,38 +262,26 @@
 
       submitBtn.disabled = true;
       progressSection.style.display = 'block';
-      setProgress(10, 'Uploading GLB to storage...');
+      setProgress(20, 'Uploading GLB...');
 
       try {
-        // Step 1: upload file directly to Vercel Blob (bypasses function size limits)
-        const blob = await upload(file.name, file, {
-          access: 'public',
-          handleUploadUrl: '/api/blob-token',
-          onUploadProgress: ({ percentage }) => {
-            setProgress(Math.round(percentage * 0.8), `Uploading... ${Math.round(percentage)}%`);
-          },
-        });
+        const blobUrl = await uploadToBlob(file);
+        setProgress(75, 'Generating QR code...');
 
-        setProgress(85, 'Generating QR code...');
-
-        // Step 2: send only metadata to finalize (tiny payload)
         const res = await fetch('/api/finalize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, sku, blobUrl: blob.url }),
+          body: JSON.stringify({ name, sku, blobUrl }),
         });
-
         const data = await res.json();
         if (!res.ok || !data.success) throw new Error(data.error || 'Finalize failed');
 
         setProgress(100, 'Done');
         currentArUrl = data.arUrl;
-
         document.getElementById('qr-container').innerHTML = data.qrSvg;
         const arLink = document.getElementById('ar-link');
         arLink.href = data.arUrl;
         arLink.textContent = data.arUrl;
-
         progressSection.style.display = 'none';
         resultSection.style.display = 'block';
       } catch (err) {
@@ -270,7 +291,7 @@
       }
     });
 
-    window.copyLink = () => {
+    function copyLink() {
       navigator.clipboard.writeText(currentArUrl).then(() => {
         const btn = document.querySelector('.copy-btn');
         btn.textContent = 'Copied!';

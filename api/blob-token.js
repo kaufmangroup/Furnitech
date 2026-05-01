@@ -1,7 +1,4 @@
-// CommonJS - avoids any ESM/subpath import issues
-const {
-  generateClientTokenFromReadWriteToken,
-} = require("@vercel/blob/client");
+const { handleUpload } = require("@vercel/blob/client");
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
@@ -23,21 +20,23 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = await readBody(req);
-    const pathname = body?.payload?.pathname ?? "model.glb";
+    const baseUrl = process.env.BASE_URL || `https://${req.headers.host}`;
 
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      return res.status(500).json({ error: "BLOB_READ_WRITE_TOKEN not set" });
-    }
-
-    const clientToken = await generateClientTokenFromReadWriteToken({
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-      pathname,
-      allowedContentTypes: ["model/gltf-binary", "application/octet-stream"],
-      maximumSizeInBytes: 200 * 1024 * 1024,
-      validUntil: Date.now() + 60 * 60 * 1000,
+    const result = await handleUpload({
+      body,
+      request: req,
+      onBeforeGenerateToken: async () => ({
+        allowedContentTypes: ["model/gltf-binary", "application/octet-stream"],
+        maximumSizeInBytes: 200 * 1024 * 1024,
+        // explicit callbackUrl — required for a valid token
+        callbackUrl: `${baseUrl}/api/blob-token`,
+      }),
+      onUploadCompleted: async () => {
+        // Vercel calls this after upload — just ack, finalize handles QR+Sheets
+      },
     });
 
-    return res.json({ type: "blob.generate-client-token", clientToken });
+    return res.json(result);
   } catch (err) {
     console.error("blob-token error:", err.message);
     return res.status(500).json({ error: err.message });
