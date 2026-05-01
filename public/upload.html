@@ -212,39 +212,6 @@
       errorMsg.style.display = 'block';
     }
 
-    async function uploadToBlob(file) {
-      // Step 1: get client token from our endpoint
-      const tokenRes = await fetch('/api/blob-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'blob.generate-client-token',
-          payload: { pathname: file.name, clientPayload: null, multipart: false }
-        })
-      });
-      if (!tokenRes.ok) {
-        const err = await tokenRes.json().catch(() => ({}));
-        throw new Error(err.error || 'Failed to get upload token');
-      }
-      const { clientToken } = await tokenRes.json();
-
-      // Step 2: PUT file directly to Vercel Blob using the client token
-      // Only Authorization header — token encodes access/content-type config
-      const blobRes = await fetch(`https://vercel.com/api/blob/?pathname=${encodeURIComponent(file.name)}`, {
-        method: 'PUT',
-        headers: {
-          'authorization': `Bearer ${clientToken}`,
-        },
-        body: file,
-      });
-      if (!blobRes.ok) {
-        const text = await blobRes.text();
-        throw new Error(`Blob upload failed (${blobRes.status}): ${text}`);
-      }
-      const blobData = await blobRes.json();
-      return blobData.url;
-    }
-
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       errorMsg.style.display = 'none';
@@ -260,19 +227,17 @@
 
       submitBtn.disabled = true;
       progressSection.style.display = 'block';
-      setProgress(20, 'Uploading GLB...');
+      setProgress(30, 'Uploading...');
 
       try {
-        const blobUrl = await uploadToBlob(file);
-        setProgress(75, 'Generating QR code...');
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('sku', sku);
+        formData.append('file', file);
 
-        const res = await fetch('/api/finalize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, sku, blobUrl }),
-        });
+        const res = await fetch('/api/upload', { method: 'POST', body: formData });
         const data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.error || 'Finalize failed');
+        if (!res.ok || !data.success) throw new Error(data.error || 'Upload failed');
 
         setProgress(100, 'Done');
         currentArUrl = data.arUrl;
