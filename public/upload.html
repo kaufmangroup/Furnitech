@@ -229,13 +229,11 @@
       const { clientToken } = await tokenRes.json();
 
       // Step 2: PUT file directly to Vercel Blob using the client token
+      // Only Authorization header — token encodes access/content-type config
       const blobRes = await fetch(`https://vercel.com/api/blob/?pathname=${encodeURIComponent(file.name)}`, {
         method: 'PUT',
         headers: {
           'authorization': `Bearer ${clientToken}`,
-          'x-api-version': '12',
-          'x-access': 'public',
-          'x-content-type': 'model/gltf-binary',
         },
         body: file,
       });
