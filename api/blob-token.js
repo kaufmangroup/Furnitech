@@ -1,4 +1,7 @@
-import { generateClientTokenFromReadWriteToken } from "@vercel/blob/client";
+// CommonJS - avoids any ESM/subpath import issues
+const {
+  generateClientTokenFromReadWriteToken,
+} = require("@vercel/blob/client");
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
@@ -15,13 +18,16 @@ function readBody(req) {
   });
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   try {
     const body = await readBody(req);
-    // upload() sends: { type: "blob.generate-client-token", payload: { pathname, ... } }
     const pathname = body?.payload?.pathname ?? "model.glb";
+
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      return res.status(500).json({ error: "BLOB_READ_WRITE_TOKEN not set" });
+    }
 
     const clientToken = await generateClientTokenFromReadWriteToken({
       token: process.env.BLOB_READ_WRITE_TOKEN,
@@ -31,12 +37,9 @@ export default async function handler(req, res) {
       validUntil: Date.now() + 60 * 60 * 1000,
     });
 
-    return res.json({
-      type: "blob.generate-client-token",
-      clientToken,
-    });
+    return res.json({ type: "blob.generate-client-token", clientToken });
   } catch (err) {
     console.error("blob-token error:", err.message);
     return res.status(500).json({ error: err.message });
   }
-}
+};

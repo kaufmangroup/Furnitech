@@ -1,6 +1,3 @@
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
 const { generateQR } = require("../lib/qr-generator.js");
 
 function readBody(req) {
@@ -18,7 +15,7 @@ function readBody(req) {
   });
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST")
     return res.status(405).json({ error: "Method not allowed" });
@@ -41,13 +38,14 @@ export default async function handler(req, res) {
     }
     const qrSvg = qrResult.data.qr_code;
 
+    // dynamic import for ESM google-sheets
     const { sheetsClient } = await import("../lib/google-sheets.js");
     await sheetsClient.initialize();
     await sheetsClient.appendRows("Sheet1!A:D", [[name, sku, arUrl, qrSvg]]);
 
     return res.status(200).json({ success: true, arUrl, qrSvg });
   } catch (err) {
-    console.error("finalize error:", err);
+    console.error("finalize error:", err.message);
     return res.status(500).json({ error: err.message || "Failed" });
   }
-}
+};
