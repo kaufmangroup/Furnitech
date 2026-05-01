@@ -35,6 +35,7 @@ module.exports = async function handler(req, res) {
     const blob = await put(file.originalFilename || "model.glb", fileBuffer, {
       access: "public",
       contentType: "model/gltf-binary",
+      addRandomSuffix: true,
     });
 
     const baseUrl = process.env.BASE_URL || `https://${req.headers.host}`;
@@ -49,7 +50,11 @@ module.exports = async function handler(req, res) {
     // Append to Google Sheets
     const { sheetsClient } = await import("../lib/google-sheets.js");
     await sheetsClient.initialize();
-    await sheetsClient.appendRows("Sheet1!A:D", [[name, sku, arUrl, qrSvg]]);
+    const sheetsResult = await sheetsClient.appendRows("Sheet1!A:D", [
+      [name, sku, arUrl, qrSvg],
+    ]);
+    if (!sheetsResult.success)
+      throw new Error("Sheets append failed: " + sheetsResult.error);
 
     return res.status(200).json({ success: true, arUrl, qrSvg });
   } catch (err) {
