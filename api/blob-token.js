@@ -1,4 +1,4 @@
-import { handleUpload } from "@vercel/blob/client";
+import { generateClientTokenFromReadWriteToken } from "@vercel/blob/client";
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
@@ -20,17 +20,23 @@ export default async function handler(req, res) {
 
   try {
     const body = await readBody(req);
-    const result = await handleUpload({
-      body,
-      request: req,
-      onBeforeGenerateToken: async () => ({
-        allowedContentTypes: ["model/gltf-binary", "application/octet-stream"],
-        maximumSizeInBytes: 200 * 1024 * 1024,
-      }),
+    // upload() sends: { type: "blob.generate-client-token", payload: { pathname, ... } }
+    const pathname = body?.payload?.pathname ?? "model.glb";
+
+    const clientToken = await generateClientTokenFromReadWriteToken({
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      pathname,
+      allowedContentTypes: ["model/gltf-binary", "application/octet-stream"],
+      maximumSizeInBytes: 200 * 1024 * 1024,
+      validUntil: Date.now() + 60 * 60 * 1000,
     });
-    return res.json(result);
+
+    return res.json({
+      type: "blob.generate-client-token",
+      clientToken,
+    });
   } catch (err) {
-    console.error("blob-token error:", err);
-    return res.status(400).json({ error: err.message });
+    console.error("blob-token error:", err.message);
+    return res.status(500).json({ error: err.message });
   }
 }
