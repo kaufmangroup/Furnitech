@@ -6,7 +6,8 @@
     "dev": "vercel dev",
     "build": "echo 'No build required for serverless'",
     "deploy": "vercel --prod",
-    "fix-s3-permissions": "node scripts/fix-s3-permissions.js"
+    "fix-s3-permissions": "node scripts/fix-s3-permissions.js",
+    "batch-upload": "node scripts/batch-upload.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.490.0",
