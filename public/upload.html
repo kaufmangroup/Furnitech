@@ -24,14 +24,14 @@
       border-radius: 12px;
       padding: 40px;
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
     }
 
     h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
-
     .subtitle { font-size: 14px; color: #8b949e; margin-bottom: 32px; }
 
     label { display: block; font-size: 13px; font-weight: 500; color: #8b949e; margin-bottom: 6px; }
+    .field-hint { font-size: 12px; color: #6e7681; font-weight: 400; }
 
     input[type="text"] {
       width: 100%;
@@ -54,7 +54,6 @@
       text-align: center;
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
-      margin-bottom: 24px;
       position: relative;
     }
     .file-zone:hover, .file-zone.drag-over { border-color: #58a6ff; background: rgba(88,166,255,0.04); }
@@ -64,6 +63,51 @@
     .file-label span { color: #58a6ff; font-weight: 500; }
     .file-name { font-size: 13px; color: #3fb950; margin-top: 8px; font-weight: 500; }
 
+    .zone-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .zone-btn {
+      flex: 1;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 5px;
+      color: #8b949e;
+      font-size: 12px;
+      padding: 7px 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .zone-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+
+    .file-count-bar {
+      font-size: 12px;
+      color: #8b949e;
+      padding: 6px 2px 2px;
+      display: none;
+      text-align: right;
+    }
+    .file-list {
+      margin-top: 4px;
+      max-height: 180px;
+      overflow-y: auto;
+      display: none;
+      margin-bottom: 4px;
+    }
+    .file-list-item {
+      display: flex;
+      align-items: center;
+      padding: 6px 10px;
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      gap: 8px;
+    }
+    .file-list-item .fname { color: #3fb950; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+    .file-list-item .fsize { color: #6e7681; white-space: nowrap; font-size: 11px; flex-shrink: 0; }
+    .file-list-item .fremove { background: none; border: none; color: #6e7681; cursor: pointer; padding: 0; font-size: 13px; line-height: 1; flex-shrink: 0; }
+    .file-list-item .fremove:hover { color: #f85149; }
+
+    .submit-area { margin-top: 20px; }
     button[type="submit"] {
       width: 100%;
       background: #238636;
@@ -81,26 +125,41 @@
 
     #progress-section { display: none; margin-top: 24px; }
     .progress-bar-track { background: #21262d; border-radius: 4px; height: 6px; overflow: hidden; margin-bottom: 8px; }
-    .progress-bar-fill { height: 100%; background: #58a6ff; border-radius: 4px; width: 0%; transition: width 0.4s; }
+    .progress-bar-fill { height: 100%; background: #58a6ff; border-radius: 4px; width: 0%; transition: width 0.3s; }
     .progress-status { font-size: 13px; color: #8b949e; text-align: center; }
 
     #result-section { display: none; margin-top: 24px; border-top: 1px solid #21262d; padding-top: 24px; }
     .result-title { font-size: 15px; font-weight: 600; color: #3fb950; margin-bottom: 20px; }
     .qr-container { background: #fff; border-radius: 8px; padding: 16px; display: flex; justify-content: center; margin-bottom: 20px; }
-    .qr-container svg { max-width: 200px; height: auto; }
+
+    #batch-result-section { display: none; margin-top: 24px; border-top: 1px solid #21262d; padding-top: 24px; }
+    .batch-summary { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+    .batch-summary .ok { color: #3fb950; }
+    .batch-summary .fail { color: #f85149; }
+    .batch-cards { display: flex; flex-direction: column; gap: 10px; max-height: 480px; overflow-y: auto; }
+    .batch-card { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 14px; }
+    .batch-card.error { border-color: rgba(248,81,73,0.3); }
+    .batch-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .batch-card-status { font-size: 13px; }
+    .batch-card-name { font-size: 13px; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .batch-card-sku { font-size: 11px; color: #6e7681; white-space: nowrap; }
+    .batch-card-body { display: flex; align-items: flex-start; gap: 12px; }
+    .batch-card-body img { width: 80px; height: 80px; border-radius: 4px; flex-shrink: 0; background: #fff; padding: 4px; }
+    .batch-card-links { flex: 1; min-width: 0; }
+    .batch-error-msg { font-size: 13px; color: #f85149; }
 
     .link-box {
-      background: #0d1117;
+      background: #161b22;
       border: 1px solid #30363d;
       border-radius: 6px;
-      padding: 10px 14px;
+      padding: 8px 12px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 8px;
+      margin-bottom: 8px;
     }
-    .link-box a { color: #58a6ff; font-size: 13px; text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .copy-btn { background: #21262d; border: 1px solid #30363d; border-radius: 4px; color: #8b949e; font-size: 12px; padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+    .link-box a { color: #58a6ff; font-size: 12px; text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .copy-btn { background: #21262d; border: 1px solid #30363d; border-radius: 4px; color: #8b949e; font-size: 11px; padding: 3px 8px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
     .copy-btn:hover { color: #e6edf3; }
 
     .reset-btn {
@@ -112,7 +171,7 @@
       font-size: 13px;
       padding: 9px;
       cursor: pointer;
-      margin-top: 8px;
+      margin-top: 16px;
     }
     .reset-btn:hover { border-color: #58a6ff; color: #e6edf3; }
 
@@ -131,25 +190,36 @@
 </head>
 <body>
   <div class="card">
-    <h1>Upload Furniture Model</h1>
-    <p class="subtitle">GLB file → AR link + QR code → Google Sheets</p>
+    <h1>Upload Furniture Models</h1>
+    <p class="subtitle">GLB files → AR links + QR codes → Google Sheets</p>
 
     <form id="upload-form">
-      <label for="name">Furniture Name</label>
-      <input type="text" id="name" placeholder="e.g. Oslo Sofa" required>
+      <label for="name">Furniture Name <span class="field-hint">(prefix for batch — leave blank to use filename)</span></label>
+      <input type="text" id="name" placeholder="e.g. Oslo Sofa">
 
-      <label for="sku">SKU</label>
-      <input type="text" id="sku" placeholder="e.g. SOF-001" required>
+      <label for="sku">SKU <span class="field-hint">(prefix for batch — e.g. SOF → SOF-001, SOF-002…)</span></label>
+      <input type="text" id="sku" placeholder="e.g. SOF-001">
 
-      <label>GLB File</label>
+      <label>GLB Files</label>
       <div class="file-zone" id="file-zone">
-        <input type="file" id="file-input" accept=".glb">
+        <input type="file" id="file-input" accept=".glb" multiple>
         <div class="file-icon">📦</div>
-        <div class="file-label">Drop GLB here or <span>browse</span></div>
+        <div class="file-label">Drop files or a folder here, or <span>browse</span></div>
         <div class="file-name" id="file-name"></div>
       </div>
 
-      <button type="submit" id="submit-btn">Upload Model</button>
+      <div class="zone-actions">
+        <button type="button" class="zone-btn" onclick="document.getElementById('folder-input').click()">📁 Select Folder</button>
+        <button type="button" class="zone-btn" id="clear-btn" onclick="clearFiles()" style="display:none">✕ Clear All</button>
+      </div>
+      <input type="file" id="folder-input" accept=".glb" webkitdirectory multiple style="display:none">
+
+      <div class="file-count-bar" id="file-count-bar"></div>
+      <div class="file-list" id="file-list"></div>
+
+      <div class="submit-area">
+        <button type="submit" id="submit-btn">Upload Model</button>
+      </div>
       <div class="error-msg" id="error-msg"></div>
     </form>
 
@@ -169,38 +239,136 @@
       </div>
       <button class="reset-btn" onclick="resetForm()">Upload another model</button>
     </div>
+
+    <div id="batch-result-section">
+      <div class="batch-summary" id="batch-summary"></div>
+      <div class="batch-cards" id="batch-cards"></div>
+      <button class="reset-btn" onclick="resetForm()">Upload more models</button>
+    </div>
   </div>
 
   <script>
-    const form = document.getElementById('upload-form');
-    const fileInput = document.getElementById('file-input');
-    const fileZone = document.getElementById('file-zone');
-    const fileNameEl = document.getElementById('file-name');
-    const submitBtn = document.getElementById('submit-btn');
+    const form        = document.getElementById('upload-form');
+    const fileInput   = document.getElementById('file-input');
+    const folderInput = document.getElementById('folder-input');
+    const fileZone    = document.getElementById('file-zone');
+    const fileNameEl  = document.getElementById('file-name');
+    const fileList    = document.getElementById('file-list');
+    const fileCountBar = document.getElementById('file-count-bar');
+    const clearBtn    = document.getElementById('clear-btn');
+    const submitBtn   = document.getElementById('submit-btn');
     const progressSection = document.getElementById('progress-section');
-    const progressFill = document.getElementById('progress-fill');
-    const progressStatus = document.getElementById('progress-status');
-    const resultSection = document.getElementById('result-section');
+    const progressFill    = document.getElementById('progress-fill');
+    const progressStatus  = document.getElementById('progress-status');
+    const resultSection      = document.getElementById('result-section');
+    const batchResultSection = document.getElementById('batch-result-section');
     const errorMsg = document.getElementById('error-msg');
-    let currentArUrl = '';
 
-    fileInput.addEventListener('change', () => {
-      if (fileInput.files[0]) fileNameEl.textContent = fileInput.files[0].name;
-    });
+    let selectedFiles = [];
+    let currentArUrl  = '';
+
+    function formatSize(bytes) {
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function addFiles(newFiles) {
+      const glb = Array.from(newFiles).filter(f => f.name.toLowerCase().endsWith('.glb'));
+      const seen = new Set(selectedFiles.map(f => f.name + f.size));
+      selectedFiles.push(...glb.filter(f => !seen.has(f.name + f.size)));
+      renderFileList();
+    }
+
+    function removeFile(idx) {
+      selectedFiles.splice(idx, 1);
+      renderFileList();
+    }
+
+    function clearFiles() {
+      selectedFiles = [];
+      fileInput.value = '';
+      folderInput.value = '';
+      renderFileList();
+    }
+
+    function renderFileList() {
+      const count = selectedFiles.length;
+      if (count === 0) {
+        fileList.style.display = 'none';
+        fileCountBar.style.display = 'none';
+        clearBtn.style.display = 'none';
+        fileNameEl.textContent = '';
+        submitBtn.textContent = 'Upload Model';
+        return;
+      }
+      if (count === 1) {
+        fileNameEl.textContent = selectedFiles[0].name;
+        fileList.style.display = 'none';
+        fileCountBar.style.display = 'none';
+        clearBtn.style.display = 'none';
+        submitBtn.textContent = 'Upload Model';
+      } else {
+        fileNameEl.textContent = '';
+        fileCountBar.style.display = 'block';
+        fileCountBar.textContent = count + ' GLB files selected';
+        clearBtn.style.display = '';
+        submitBtn.textContent = 'Upload ' + count + ' Models';
+        fileList.style.display = 'block';
+        fileList.innerHTML = selectedFiles.map((f, i) =>
+          '<div class="file-list-item">' +
+            '<span class="fname" title="' + escHtml(f.name) + '">' + escHtml(f.name) + '</span>' +
+            '<span class="fsize">' + formatSize(f.size) + '</span>' +
+            '<button class="fremove" type="button" onclick="removeFile(' + i + ')" title="Remove">✕</button>' +
+          '</div>'
+        ).join('');
+      }
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    fileInput.addEventListener('change', () => addFiles(fileInput.files));
+    folderInput.addEventListener('change', () => addFiles(folderInput.files));
 
     fileZone.addEventListener('dragover', (e) => { e.preventDefault(); fileZone.classList.add('drag-over'); });
     fileZone.addEventListener('dragleave', () => fileZone.classList.remove('drag-over'));
-    fileZone.addEventListener('drop', (e) => {
+    fileZone.addEventListener('drop', async (e) => {
       e.preventDefault();
       fileZone.classList.remove('drag-over');
-      const f = e.dataTransfer.files[0];
-      if (f && f.name.toLowerCase().endsWith('.glb')) {
-        const dt = new DataTransfer();
-        dt.items.add(f);
-        fileInput.files = dt.files;
-        fileNameEl.textContent = f.name;
-      }
+      const files = await collectDroppedFiles(e.dataTransfer);
+      addFiles(files);
     });
+
+    async function collectDroppedFiles(dataTransfer) {
+      const items = Array.from(dataTransfer.items || []);
+      if (items.length && items[0].webkitGetAsEntry) {
+        const entries = items.map(i => i.webkitGetAsEntry()).filter(Boolean);
+        const nested = await Promise.all(entries.map(traverseEntry));
+        return nested.flat();
+      }
+      return Array.from(dataTransfer.files);
+    }
+
+    async function traverseEntry(entry) {
+      if (!entry) return [];
+      if (entry.isFile) {
+        return new Promise(resolve =>
+          entry.file(f => resolve(f.name.toLowerCase().endsWith('.glb') ? [f] : []))
+        );
+      }
+      if (entry.isDirectory) {
+        const reader = entry.createReader();
+        let all = [], batch;
+        do {
+          batch = await new Promise(resolve => reader.readEntries(resolve));
+          all.push(...batch);
+        } while (batch.length > 0);
+        const nested = await Promise.all(all.map(traverseEntry));
+        return nested.flat();
+      }
+      return [];
+    }
 
     function setProgress(pct, status) {
       progressFill.style.width = pct + '%';
@@ -216,61 +384,142 @@
       e.preventDefault();
       errorMsg.style.display = 'none';
 
-      const name = document.getElementById('name').value.trim();
-      const sku = document.getElementById('sku').value.trim();
-      const file = fileInput.files[0];
+      const namePrefix = document.getElementById('name').value.trim();
+      const skuPrefix  = document.getElementById('sku').value.trim();
 
-      if (!name || !sku || !file) {
-        showError('Please fill in all fields and select a GLB file.');
+      if (selectedFiles.length === 0) {
+        showError('Please select at least one GLB file.');
+        return;
+      }
+      if (selectedFiles.length === 1 && (!namePrefix || !skuPrefix)) {
+        showError('Please fill in all fields.');
         return;
       }
 
       submitBtn.disabled = true;
       progressSection.style.display = 'block';
-      setProgress(30, 'Uploading...');
 
-      try {
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('sku', sku);
-        formData.append('file', file);
+      if (selectedFiles.length === 1) {
+        setProgress(30, 'Uploading...');
+        try {
+          const fd = new FormData();
+          fd.append('name', namePrefix);
+          fd.append('sku', skuPrefix);
+          fd.append('file', selectedFiles[0]);
+          const res  = await fetch('/api/upload', { method: 'POST', body: fd });
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.error || 'Upload failed');
 
-        const res = await fetch('/api/upload', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.error || 'Upload failed');
-
-        setProgress(100, 'Done');
-        currentArUrl = data.arUrl;
-        const qrImg = document.createElement('img');
-        qrImg.src = data.qrImageUrl;
-        qrImg.style.cssText = 'width:200px;height:200px';
-        document.getElementById('qr-container').appendChild(qrImg);
-        const arLink = document.getElementById('ar-link');
-        arLink.href = data.arUrl;
-        arLink.textContent = data.arUrl;
-        progressSection.style.display = 'none';
-        resultSection.style.display = 'block';
-      } catch (err) {
-        progressSection.style.display = 'none';
-        submitBtn.disabled = false;
-        showError(err.message);
+          setProgress(100, 'Done');
+          currentArUrl = data.arUrl;
+          const qrImg = document.createElement('img');
+          qrImg.src = data.qrImageUrl;
+          qrImg.style.cssText = 'width:200px;height:200px';
+          document.getElementById('qr-container').innerHTML = '';
+          document.getElementById('qr-container').appendChild(qrImg);
+          document.getElementById('ar-link').href = data.arUrl;
+          document.getElementById('ar-link').textContent = data.arUrl;
+          progressSection.style.display = 'none';
+          resultSection.style.display = 'block';
+        } catch (err) {
+          progressSection.style.display = 'none';
+          submitBtn.disabled = false;
+          showError(err.message);
+        }
+        return;
       }
+
+      // Batch upload — sequential, one request per file
+      const results = [];
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const base = file.name.replace(/\.glb$/i, '');
+        const name = namePrefix ? namePrefix + ' - ' + base : base;
+        const sku  = skuPrefix  ? skuPrefix + '-' + String(i + 1).padStart(3, '0') : base;
+
+        setProgress(
+          Math.round((i / selectedFiles.length) * 95),
+          'Uploading ' + (i + 1) + ' of ' + selectedFiles.length + ': ' + file.name
+        );
+
+        try {
+          const fd = new FormData();
+          fd.append('name', name);
+          fd.append('sku', sku);
+          fd.append('file', file);
+          const res  = await fetch('/api/upload', { method: 'POST', body: fd });
+          const data = await res.json();
+          if (!res.ok || !data.success) throw new Error(data.error || 'Upload failed');
+          results.push({ name, sku, filename: file.name, arUrl: data.arUrl, qrImageUrl: data.qrImageUrl, success: true });
+        } catch (err) {
+          results.push({ name, sku, filename: file.name, error: err.message, success: false });
+        }
+      }
+
+      setProgress(100, 'Complete');
+      progressSection.style.display = 'none';
+
+      const ok   = results.filter(r => r.success).length;
+      const fail = results.filter(r => !r.success).length;
+      document.getElementById('batch-summary').innerHTML =
+        '<span class="ok">✓ ' + ok + ' uploaded</span>' +
+        (fail ? ' · <span class="fail">✗ ' + fail + ' failed</span>' : '');
+
+      document.getElementById('batch-cards').innerHTML = results.map(r => r.success
+        ? '<div class="batch-card">' +
+            '<div class="batch-card-header">' +
+              '<span class="batch-card-status" style="color:#3fb950">✓</span>' +
+              '<span class="batch-card-name" title="' + escHtml(r.name) + '">' + escHtml(r.name) + '</span>' +
+              '<span class="batch-card-sku">' + escHtml(r.sku) + '</span>' +
+            '</div>' +
+            '<div class="batch-card-body">' +
+              '<img src="' + escHtml(r.qrImageUrl) + '" alt="QR">' +
+              '<div class="batch-card-links">' +
+                '<div class="link-box">' +
+                  '<a href="' + escHtml(r.arUrl) + '" target="_blank">' + escHtml(r.arUrl) + '</a>' +
+                  '<button class="copy-btn" data-url="' + escHtml(r.arUrl) + '" onclick="copyFromBtn(this)">Copy</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>'
+        : '<div class="batch-card error">' +
+            '<div class="batch-card-header">' +
+              '<span class="batch-card-status" style="color:#f85149">✗</span>' +
+              '<span class="batch-card-name" title="' + escHtml(r.filename) + '">' + escHtml(r.filename) + '</span>' +
+            '</div>' +
+            '<div class="batch-error-msg">' + escHtml(r.error) + '</div>' +
+          '</div>'
+      ).join('');
+
+      batchResultSection.style.display = 'block';
     });
 
     function copyLink() {
       navigator.clipboard.writeText(currentArUrl).then(() => {
-        const btn = document.querySelector('.copy-btn');
+        const btn = document.querySelector('#result-section .copy-btn');
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = 'Copy', 2000);
       });
-    };
+    }
 
-    window.resetForm = () => {
+    function copyFromBtn(btn) {
+      navigator.clipboard.writeText(btn.dataset.url).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+      });
+    }
+
+    window.resetForm = function() {
       form.reset();
-      fileNameEl.textContent = '';
+      clearFiles();
       resultSection.style.display = 'none';
+      batchResultSection.style.display = 'none';
+      progressSection.style.display = 'none';
+      progressFill.style.width = '0%';
       submitBtn.disabled = false;
+      errorMsg.style.display = 'none';
       currentArUrl = '';
+      document.getElementById('qr-container').innerHTML = '';
     };
   </script>
 </body>
